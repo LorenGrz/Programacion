@@ -1,0 +1,461 @@
+-----------------------------
++ DIRECTIVAS DE PREPROCESADOR
+
+    LIBRERIAS
+    *********
+
+        #include <stdio.h>
+            getchar(); -> pausa del sistema
+            gets(var); -> "scanf" para strings (no corta el string por un espacio)
+            sizeof(var) -> muestra cantidad de bytes de una variable
+            (tipoDeDato) -> casting (transoforma tipo de dato)
+            fflush(stdin) -> limpia memoria del buffer (usar dsp de un scanf)
+            exit(1) -> cierra la app
+
+        #include <math.h>
+            ceil -> redondea hacia arriba
+            floor -> redondea hacia abajo
+            fmod(num1, num2) -> devuelve resto de num1/num2 como float
+
+        #include <ctype.h>
+            variable = toupper(variable) -> transforma el char en "variable" en mayuscula
+            variable = tolower(variable) -> transforma el char en "variable" en minuscula
+            isdigit -> 1 = es un numero
+                       0 = no es numero
+
+        #include <stdlib.h>
+            "piso" + rand() % "techo" -> valor random entre "piso" (= 1) y "techo" (= 6)
+            srand -> >LEER PDF<
+
+        #include <time.h>
+            time(NULL) -> valor del reloj de la PC
+
+    CONSTANTES SIMBOLICAS
+    *********************
+
+        (no es un dato, reemplaza codigo)
+        #define TEXTO Hola // reemplaza "TEXTO" por "Hola" en el codigo
+
+----------------------------
++ ESPECIFICADORES DE FORMATO
+
+    INT
+        %d, %i -> enteros (base 10)
+        %u -> naturales + 0 (base 10)
+        %x -> naturales + 0 (base 16)
+        %o -> naturales + 0 (base 8)
+
+        MODIFICADORES (a = 16)
+            %n      |16-------| número normal
+            %4n     |--16-----| 4 caracteres, rellena con espacios
+            %04n    |0016-----| 4 caracteres, llena con ceros
+            %.4n    |0016-----| ídem
+
+    FLOAT
+        %f, %lf -> reales (base 10)
+        %e -> notación científica reales (base 10)
+
+        MODIFICADORES (a = 16.748)
+            %n      |16.748000------| número normal
+            %11n    |--16.748000----| 11 caracteres, rellena con espacios
+            %011n   |0016.748000----| 11 caracteres, rellena con ceros
+            %.4n    |16.7480--------| 4 decimales dsp de la coma
+            %07.2n  |0016.75--------| 7 caracteres, 2 decimales, relleno de ceros
+            %7.2n   |--16.75--------| 7 caracteres, 2 decimales, relleno de espacios
+
+    PUNTERO, CARACTER, STRING
+        %p -> direccion en memoria del puntero (base 16)
+        %c -> char (%INTs -> ver ASCII) (comillas simples)
+        %s -> string (comillas dobles)
+
+----------------
++ TIPOS DE DATOS
+
+    (bits, rango)
+    char var[20]; // string = 19 caracteres; caracter 20 (var[19]) = "\0" (no se imprime)
+    char -> (8, -128 a 127)
+    unsigned char -> (8, 255)
+    short int -> (16, -32768 a 32767)
+    unsigned short int -> (16, 0 a 65535)
+    int -> (32, -2147483648 a 2147483647)
+    unsigned int -> (32, 0 a 4294967295)
+    long int -> (32, -2147483648 a 2147483647)
+    unsigned long int -> (32, 0 a 4294967295)
+    long -> (32, -2147483648 a 2147483647)
+    float -> (32, 1.18e-38 a 3.40e38)
+    double -> (64, 2.23e-308 a 1.79e308)
+    long double -> (80, 3.37e-4932 a 1.18e4932)
+
+    JERARQUIA: long double > double > float > unsigned long > long > unsigned int > int > char;
+    (al operar con distintos tipos de datos, la nueva variable tendra el mayor numero de bits)
+
+    BOOLEANOS: no existen en C, pero se puede reemplazar con un int flagX = 1/0
+
+------------
++ OPERADORES
+
+    aritmeticos: + - * / %
+    relacionales: < > <= >= == !=
+    logicos: ! && ||
+    asignacion: += -= *= /= %= =
+    asignacion compacta: ++ -- (post/pre)
+
+---------------
++ CONDICIONALES
+
+    COMPACTO: b = (a > 0) ? 1 : 4;  ------ igual que ------>    "if (a > 0) { b = 1; } else { b = 4; }"
+
+    MULTIPLE: if ((a == 1 && b == 2) || (a == 3 && b == 4)) {etc}
+
+    SWITCH:
+        switch(variable) {  // variable = 1 / 2 / 3 / 4 / 5 / 6 / 7
+                            // variable = int o char (ejemplo case "1":)
+                            // variable != string o float
+            case 1: printf("Lunes\n");        
+                break; // necesario para salir del "switch"
+            case 2: printf("Martes\n");
+                break;
+            case 3: printf("Miercoles\n");
+                break;
+            case 4: printf("Jueves\n");
+                break;
+            case 5: 
+            case 6:
+            case 7:
+                printf("Fin de semana\n"); // 5, 6, 7 -> hacen lo mismo
+                break;
+            default: printf("Ingreso un número no válido");
+                break;
+        }
+
+--------
++ CICLOS
+
+    for (int i = x; i < y; i++) {codigo}
+        // número prefefinido de iteraciones
+        int i = x  -->  variable local (tmb se puede usar una global)
+        i < y      -->  condicion = true -> ejecuto codigo
+        i++        -->  i = i + 1 al final de la iteración
+
+    while (i != 0) {codigo}
+        // numero indefinido de iteraciones
+        condicion = true  -->  ejecuto codigo
+        cambiar i al final del bloque de codigo
+
+    do {codigo} while (i <= 0);
+        // numero indefinido de iteraciones (la primera siempre ejecuta)
+        ejecuto codigo  --> condicion = true --> vuelvo a ejecutar
+        cambiar i al final del bloque de codigo
+
+----------
++ PUNTEROS
+
+    USO
+        int var;
+        int *pun1;  // *pun1 -> variable puntero (capaz de almacenar direc de memoria)
+        void *pun2; // puntero void = "generico"  
+
+        pun1 = &var; // &var -> direc de memoria
+
+        printf("pun (d) = %d", pun1); // direc mem de var (&var) decimal
+        printf("pun (h) = %p", pun1); // direc mem de var (&var) hexadecimal
+        printf("var = %d", *pun1);    // valor de var
+        printf("%d\n", *((int *)pun2)); // transformo puntero void en puntero int (casting)
+
+    RESERVA DE MEMORIA (1 BYTE = 1 CELDA)
+        char 1 byte
+        int 2 o 4 bytes
+        float 4 bytes
+        double 8 bytes
+
+-----------
++ FUNCIONES
+
+    TIPOS
+        // Las funciones solo pueden retornar un valor
+        int funcion() -> retorna entero
+        float funcion() -> retorna flotante
+        etc...
+        void funcion() -> no retorna nada
+
+    USO DE PUNTEROS
+        // Al pasar direcciones como parámetros y usar punteros como argumentos, el valor de la variable se modifica
+        // Se dice: "pasar parametros por DIRECCIÓN o por VALOR
+        // Una funcion puede tener o no argumentos
+
+        void funcion(int*, float*);
+        int main() {
+            funcion(&a, &b)
+        }
+        void funcion(int *puntEntero, float *puntFlotante) {codigo}
+
+    PROTOTIPOS
+        // CON PROTOTIPO (mas prolijo)
+        int funcion(int*, float); -> sin el PROTOTIPO "main" no podria llamar a "funcion"
+        int main() {codigo} -> primera funcion leida
+        int funcion(int *punt, float frac) {codigo} -> declaracion de "funcion"
+
+        // SIN PROTOTIPO (menos codigo)
+        int funcion(int *punt, float frac) {codigo} -> "funcion" se declara antes que "main"
+        int main() {codigo} -> si "main" estuviera declarada antes que "funcion", esta última no podría ser llamada
+
+    RECURSIVIDAD
+        // USAR RECURSIVIDAD SI: simplifica código, se acerca mas a la descripción matemática
+        // USAR CICLOS SI: hay largos arrays
+
+        int factorial(int a) {
+            if (a == 0)                        // Caso base
+                return 1;                      // Condición de salida
+            else                               // Recursión
+                return (factorial(a - 1) * a); // Llamada a sí misma
+        }        
+        int main() {
+            int n;
+            printf("Ingrese x!\nx = ");
+            scanf("%d", &n);
+            printf("%d! = %d", n, factorial(n));
+            return 0;
+        }
+
+--------
++ ARRAYS
+
+    DECLARACION
+        arr[3] -> 0 # 1 # 2     // (3 espacios consecutivos en memoria)
+        arr[] = {'h', 'o', 'y'} // 3 elementos
+        arr[5] = {'e', 'l'}     // completa con ceros 5 elementos
+
+        VALOR:  arr[n]   ó  *(arr + n)
+        DIREC:  &arr[n]  ó  arr + n
+
+    STRINGS
+        gets(arrStr); // scanf("%[^\n]", arrStr);
+        printf("STRING = %s", arrStr); // con %s -> "printf" recibe dir
+
+        string.h
+            strcpy(arr1, arr2); // copio arr2 en arr1
+            valor = strcmp(arr1, arr2); // valor = 0 -> arr1 = arr2
+                                        // valor > 0 -> arr1 > arr2
+                                        // valor < 0 -> arr1 < arr2
+
+    PUNTEROS
+        valStr[] = "ABC" // arr contiene los valores "ABC" ("valStr" -> stack, var) ("ABC" -> stack, var)
+        *ptrStr  = "DEF" // ptr contiene la direc de "DEF" ("ptrStr" -> stack, var) ("DEF" -> dataS, const global)
+
+    
+    FUNCIONES
+        MAIN() -------> FUNC()
+        arr    -------> tipo *arr
+        arr    -------> tipo arr[]
+        &arr[] -------> tipo *arr
+        &arr[] -------> tipo arr[]
+
+------------------------
++ ARRAYS BIDIMENSIONALES
+
+    // En la declaracion se puede omitir cantidad de FILAS
+    // pero no de COLUMNAS
+    int arr[][3] = {1,2,3,4,5,6,7,8,9} // tomara 3 FILAS (Matriz 3x3)
+
+    ACCESO A DIRECCIONES
+        // 3 formas de escribir lo mismo
+            &arr[i][j]
+            arr[i]+j
+            *(arr+i)+j
+
+    ACCESO A VALORES
+        // 3 formas de escribir lo mismo
+            arr[i][j]
+            *(ventas[i] + j)
+            *(*(ventas + i) + j)
+
+    FUNCIONES
+        MAIN() -------> FUNC()
+        arr    -------> tipo arr[][COL]
+
+    ARRAYS DE PUNTEROS A STRINGS
+        FUNCIONES
+            MAIN() -------> FUNC()
+            arr    -------> tipo *arr[]
+
+        UTILIDAD
+            // Facilidad de manejo de array de strings
+            char cad0[10];
+            char cad1[20];
+            char cad2[10];
+            char cad3[30];
+            char cad4[20];
+            char * VNom[CANT]={cad0,cad1,cad2,cad3,cad4};
+            FOR EACH i { scanf("%s", VN[i]); }
+            FOR EACH i { printf("%s\n", VN[i]); }
+
+
+
+----------------------
++ ALGORITMOS DE ARRAYS
+
+    ORDENAMIENTO
+    ************
+
+        BUBBLE SORT (menos de 1000 elementos)
+            void bubbleSort(int v[], int d) {
+                int i, j, aux, cambio;
+                for (i = 0; i < d - 1; i++) {
+                    cambio = 0;
+                    for (j = 0; j < d - (i + 1); j++) {
+                        if (v[j] > v[j + 1]) {
+                            aux = v[j];
+                            v[j] = v[j + 1];
+                            v[j + 1] = aux;
+                            cambio = 1; }}}}
+
+        INSERTION SORT (menos de 1000 elementos)
+            void insertionSort(int v[], int d) {
+                int i,j, k, cont, aux; // Ordenar y mostrar resultados intermedios
+                for (cont = 1; cont<d; cont++) { // Colocar v[cont] 
+                    aux = v[cont];
+                    k = cont-1; // posicion del elemento a comparar 
+                    while ((v[k] > aux) && (k>0)) { // Desplazar elementos 
+                        v[k+1] = v[k];
+                        k--; }
+                    if (v[k] <= aux) { // posicion intermedia 
+                        v[k+1] = aux;
+                    } else { // colocar el primero 
+                        v[1] = v[0];
+                        v[0] = aux; }}}
+
+        QUICK SORT (mas de 1000 elementos)
+            void quickSort(int a[], int primero, int ultimo) { 
+                int contint = 0, pivote, i, j, central, tmp, c;
+                central = (primero + ultimo) / 2;
+                pivote = a[central];
+                i = primero;
+                j = ultimo;
+                do {
+                    while (a[i] < pivote)
+                        i++;
+                    while (a[j] > pivote)
+                        j--;
+                    if (i <= j) {
+                        tmp = a[i];
+                        a[i] = a[j];
+                        a[j] = tmp;
+                        i++;
+                        j--; }
+                    } while (i <= j);
+                    if (primero < j)
+                        quickSort(a, primero, j);
+                    if (i < ultimo)
+                        quickSort(a, i, ultimo);
+                    }
+
+    BUSQUEDA (COMPLETAR)
+    ********************
+
+--------
++ STRUCT
+
+    DECLARACION (Puedo declarar variables en la definicion del struct)
+    *********** ("vueloUno" y "vueloDos")
+
+        struct vuelo {
+            char origen[5];
+            char destino[5];
+            int duracion;
+            float precio;
+        } vueloUno, vueloDos;
+
+        int main() {
+            struct vuelo vueloTres = {"AEP", "CNQ", 95, 680.00};
+            struct vuelo vueloCuatro;
+            printf("Destino: %d", vueloTres.duracion); }
+
+
+    DEC. TYPEDEF (Ahorra texto)
+    ************
+
+        typedef struct vuelo {
+            char origen[5];
+            char destino[5];
+            int duracion;
+            float precio;
+        } vuelos;
+
+        int main() {
+            vuelos vueloUno = {"AEP", "CNQ", 95, 680.00};
+            vuelos vueloDos;
+            printf("Destino: %s", vueloUno.destino); }
+
+    ANIDAMIENTO
+    ***********
+
+        struct fecha{
+            int dia, mes;};
+
+        struct vuelos {
+            char origen[5];
+            char destino[5];
+            int duracion;
+            float precio;
+            struct fecha date; };
+
+        int main() {
+            struct vuelos vuelo1 = {"AEP", "CNQ", 95, 680.00, {11,4,2020}};
+            struct vuelos vuelo2, vuelo3;
+            vuelo2.date.mes = 10; }
+
+    ARRAYS
+    ******
+
+        typedef struct alumnos {
+            int legajo, grado;
+            char division;
+            float notas[3];
+        } alumnos;
+
+        int main() {
+            alumnos unsam[10];
+            int i = 0; // corresponde un "for"
+            int j = 2; // corresponde un "for"
+            scanf("%f", &unsam[i].notas[j]); }
+
+---------------
++ ENUMERACIONES
+
+    enum color {blanco, amarillo, rojo, verde};
+    // 0, 1, 2, 3, 4, 5, 6 (asignados respectivamente)
+
+    enum talles {XS = -2, S, M, L , XL = 7};
+    // -2, -1, 0, 1, 7 (asignados respectivamente)
+    
+    int main() {
+        enum color cocheUno;
+        printf("Color (0 a 3): ");
+        scanf("%d", &cocheUno);        
+        switch(cocheUno) {
+            case blanco: printf("El coche es de color blanco\n"); break;
+            case amarillo: printf("El coche es de color amarillo\n"); break;
+            case rojo: printf("El coche es de color rojo\n"); break;
+            case verde: printf("El coche es de color verde\n"); break;
+
+---------
++ UNIONES
+
+    // Diferentes tipos de datos en un mismo espacio de memoria
+    // Solo almacena un valor de variable a la vez
+
+    union numero {
+        int x;
+        double y; };
+
+    int main() {
+        union numero valor;
+
+        valor.x = 100;
+        printf("INT X = %d\nFLOAT Y = %f\n", valor.x, valor.y);
+        valor.y = 100.0;
+        printf("INT X = %d\nFLOAT Y = %f\n", valor.x, valor.y);
+
+        printf( "sizeof(valor.x):%d\n", sizeof(valor.x)); // BYTES REQUERIDOS
+        printf( "sizeof(valor.y):%d\n", sizeof(valor.y));
+        printf( "sizeof(valor):%d\n", sizeof(valor)); }
