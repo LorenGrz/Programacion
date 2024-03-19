@@ -32,6 +32,7 @@ def listar_clientes(clientes):
 def listar_clientes_preferentes(clientes):
     print("------------------------------------")
     print("**Listado de clientes preferentes**")
+
 def main():
     clientes = {}
     opcion = 0
@@ -49,8 +50,8 @@ def main():
         print("6. Terminar")
         print("------------------------------------")
 
-        opcion = input("Introduce una opción")
-        
+        opcion = int(input("Introduce una opción"))
+
         if opcion < 1 or opcion > 6:
             print("Opción no válida. Inténtalo de nuevo.")
         
@@ -89,3 +90,5 @@ def main():
             # Terminar el programa
             print("¡Hasta pronto!")
             break
+            
+main()
