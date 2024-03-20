@@ -1,0 +1,14 @@
+{
+  "name": "prueba",
+  "version": "1.0.0",
+  "description": "Prueba de typescript y javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}
